@@ -3,14 +3,16 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Block Blast</title>
+  <title>Test</title>
+  <!-- Подключаем Telegram SDK -->
   <script src="https://telegram.org/js/telegram-web-app.js"></script>
   <style>
     body {
       margin: 0;
       padding: 0;
-      background: #fff;
       font-family: Arial, sans-serif;
+      background: white;
+      color: black;
       text-align: center;
       height: 100vh;
       display: flex;
@@ -20,24 +22,31 @@
   </style>
 </head>
 <body>
-  <div id="app">Загрузка...</div>
+  <div id="app">⏳ Загрузка...</div>
 
   <script>
-    // Проверяем, загрузился ли SDK
-    console.log("Telegram WebApp:", window.Telegram);
+    // Лог для проверки
+    console.log("Страница загружена");
 
-    if (window.Telegram?.WebApp) {
-      try {
-        Telegram.WebApp.ready();
-        Telegram.WebApp.expand();
-        document.getElementById("app").textContent = "Работает!";
-      } catch (e) {
-        document.getElementById("app").textContent = "Ошибка: " + e.message;
-        console.error(e);
+    // Ждём, пока SDK загрузится
+    window.onload = function () {
+      console.log("Window loaded");
+
+      if (window.Telegram && window.Telegram.WebApp) {
+        try {
+          Telegram.WebApp.ready();
+          Telegram.WebApp.expand();
+          document.getElementById("app").innerText = "✅ Mini App работает!";
+          console.log("WebApp ready");
+        } catch (e) {
+          document.getElementById("app").innerText = "❌ Ошибка: " + e.message;
+          console.error("Ошибка WebApp:", e);
+        }
+      } else {
+        document.getElementById("app").innerText = "⚠️ SDK не загрузился";
+        console.error("Telegram WebApp не найден");
       }
-    } else {
-      document.getElementById("app").textContent = "SDK не загрузился";
-    }
+    };
   </script>
 </body>
 </html>
